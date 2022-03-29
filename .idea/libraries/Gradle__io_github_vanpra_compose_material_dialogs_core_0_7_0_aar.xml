@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: io.github.vanpra.compose-material-dialogs:core:0.7.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/867ea1bf8a3dbcd505c95efd2aada7f6/transformed/jetified-core-0.7.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/867ea1bf8a3dbcd505c95efd2aada7f6/transformed/jetified-core-0.7.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/867ea1bf8a3dbcd505c95efd2aada7f6/transformed/jetified-core-0.7.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.vanpra.compose-material-dialogs/core/0.7.0/b96907ee6dce984deb4eb520cd59bbf90f7eea16/core-0.7.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.vanpra.compose-material-dialogs/core/0.7.0/2b4b9b6115e6ae55adf45d49097d782d8ce619ba/core-0.7.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
