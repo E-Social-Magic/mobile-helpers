@@ -22,7 +22,15 @@ interface PostApi {
         @Query("down") down: String = "false",
     ): Response<VoteResponse>
 
+    @GET("post/{post-id}/vote/{comment-id}")
+    suspend fun voteUp(
+        @Path("post-id") postId: String,
+        @Path("comment-id") commentId: String,
+        @Query("up") up: String = "false",
+        @Query("down") down: String = "false",
+    ): Response<VoteResponse>
     @GET("post/{post-id}")
+
     suspend fun getPostById(@Path("post-id") postId: String): Response<PostByIdResponse>
 
     @Multipart

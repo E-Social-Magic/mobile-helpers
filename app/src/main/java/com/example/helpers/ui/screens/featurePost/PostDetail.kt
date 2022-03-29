@@ -36,9 +36,8 @@ fun PostDetail(
     var isEditable = false
     val post = postViewModel.post.value
     if (post != null)
-        isEditable = postViewModel.userIdSesstion == post!!.userId
+    isEditable = postViewModel.userIdSesstion == post.userId
     LaunchedEffect(key1 = true) {
-        loginViewModel.isShowBottomBar.value=false
          postViewModel.findPostById(id = postId)
         isLoading = false
     }
@@ -74,20 +73,20 @@ fun PostDetail(
                         Column(Modifier.padding(8.dp)) {
                             HeaderPost(
                                 navigator = navigator,
-                                userId = post!!.userId,
-                                authorAvatar = post!!.authorAvatar,
-                                userName = post!!.userName,
-                                createdAt = post!!.createdAt,
-                                coins = post!!.coins,
-                                costs = post!!.costs
+                                userId = post.userId,
+                                authorAvatar = post.authorAvatar,
+                                userName = post.userName,
+                                createdAt = post.createdAt,
+                                coins = post.coins,
+                                costs = post.costs
                             )
-                            TitlePost(post!!.title)
-                            TextContent(post!!.content)
-                            post!!.images.map { image ->
+                            TitlePost(post.title)
+                            TextContent(post.content)
+                            post.images.map { image ->
                                 ImageContent(url = image)
                             }
                             BottomPostAction(
-                                post!!,
+                                post,
                                 postViewModel = postViewModel,
                                 onCommentIconClick = { shouldShowComment = !shouldShowComment },
                             )
@@ -96,11 +95,11 @@ fun PostDetail(
                     if (shouldShowComment) {
                         post.let {
                             CommentInput(
-                                hint = "comment something",
+                                hint = "Viết bình luận... ",
                                 postId = it.id,
                                 onSubmit = { postId, comment ->
                                     postViewModel.submitComment(
-                                        postId = post!!.id,
+                                        postId = post.id,
                                         message = comment,
                                     )
 
@@ -109,10 +108,10 @@ fun PostDetail(
                             )
                             ListComment(
                                 postViewModel = postViewModel,
-                                messages = post!!.comments,
+                                messages = post.comments,
                                 isEditable = isEditable,
-                                postId = post!!.id,
-                                onwerPostId = post!!.userId
+                                postId = post.id,
+                                onwerPostId = post.userId
                             )
 
                         }

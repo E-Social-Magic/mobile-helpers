@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -80,8 +81,10 @@ fun DepositCoins(
                             val i = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                             context.startActivity(i)
                         })
-                    }) {
-                        Text(text = "Nạp", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    },
+                        shape = RoundedCornerShape(24)
+                    ) {
+                        Text(text = "Nạp", fontSize = 20.sp, fontWeight = FontWeight.Bold,modifier = Modifier.padding(horizontal = 10.dp))
                     }
                 }
             }

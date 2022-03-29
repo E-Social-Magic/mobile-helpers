@@ -44,7 +44,8 @@ fun HeaderPost(
     createdAt: String,
     costs: Boolean = false,
     coins: Int = 0,
-    isSolve:Boolean =false
+    isSolve:Boolean =false,
+    hideName:Boolean = false,
 ) {
     var expand by remember { mutableStateOf(false) }
     Row(
@@ -66,7 +67,7 @@ fun HeaderPost(
                 .size(35.dp)
                 .clip(CircleShape)
                 .border(1.5.dp, MaterialTheme.colors.secondaryVariant, CircleShape)
-                .clickable { expand = true },
+                .clickable { if(!hideName) expand=!expand},
 
             )
         Spacer(modifier = Modifier.width(8.dp))

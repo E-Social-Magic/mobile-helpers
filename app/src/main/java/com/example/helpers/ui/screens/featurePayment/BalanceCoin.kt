@@ -23,6 +23,7 @@ import com.example.helpers.ui.components.SimpleTopAppBar
 import com.example.helpers.ui.screens.destinations.DepositCoinsDestination
 import com.example.helpers.ui.screens.destinations.HistoryPaymentDestination
 import com.example.helpers.ui.screens.destinations.WithDrawDestination
+import com.example.helpers.ui.screens.featureLogin.LoginViewModel
 import com.example.helpers.ui.screens.featureProfile.HorizontalDivider
 import com.example.helpers.ui.screens.featureProfile.VerticalDivider
 import com.ramcosta.composedestinations.annotation.Destination
@@ -34,10 +35,12 @@ import java.text.NumberFormat
 @Composable
 fun BalanceCoin(
     navigator: DestinationsNavigator,
-    paymentViewModel: PaymentViewModel = hiltViewModel()
+    paymentViewModel: PaymentViewModel = hiltViewModel(),
+    loginViewModel:LoginViewModel = hiltViewModel(),
 ) {
     val formatter: NumberFormat = DecimalFormat("#,###")
     val coins = paymentViewModel.coins
+    loginViewModel.isShowBottomBar.value=false
     Box(Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(Alignment.TopStart)) {
             SimpleTopAppBar(title = "Số dư ") {
@@ -73,7 +76,7 @@ fun BalanceHeader(navigator: DestinationsNavigator) {
         Row(Modifier
             .weight(1f)
             .fillMaxWidth()
-            .clickable {navigator.navigate(DepositCoinsDestination) }
+            .clickable { navigator.navigate(DepositCoinsDestination) }
             .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
@@ -102,7 +105,7 @@ fun BalanceHeader(navigator: DestinationsNavigator) {
         Row(Modifier
             .fillMaxHeight()
             .weight(1f)
-            .clickable {navigator.navigate(HistoryPaymentDestination) }
+            .clickable { navigator.navigate(HistoryPaymentDestination) }
             .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center

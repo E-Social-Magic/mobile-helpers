@@ -121,9 +121,10 @@ fun WithDraw(
                                     ).show()
                             })
                         }
-
-                    }) {
-                        Text(text = "Rút", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    },
+                        shape = RoundedCornerShape(24)
+                    ) {
+                        Text(text = "Rút", fontSize = 20.sp, fontWeight = FontWeight.Bold,modifier = Modifier.padding(horizontal = 10.dp))
                     }
                 }
             }

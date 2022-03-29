@@ -17,6 +17,7 @@ import androidx.core.content.FileProvider
 import okhttp3.ResponseBody
 import java.io.*
 import java.text.DecimalFormat
+import java.util.*
 
 /*
 * Copyright (C) 2018 OpenIntents.org
@@ -52,8 +53,8 @@ object FileUtils {
      */
     var sComparator =
         java.util.Comparator { f1: File, f2: File ->
-            f1.getName().toLowerCase().compareTo(
-                f2.getName().toLowerCase()
+            f1.name.lowercase(Locale.getDefault()).compareTo(
+                f2.name.lowercase(Locale.getDefault())
             )
         }
 
@@ -61,16 +62,16 @@ object FileUtils {
      * File (not directories) filter.
      */
     var sFileFilter = FileFilter { file: File ->
-        val fileName: String = file.getName()
-        file.isFile() && !fileName.startsWith(HIDDEN_PREFIX)
+        val fileName: String = file.name
+        file.isFile && !fileName.startsWith(HIDDEN_PREFIX)
     }
 
     /**
      * Folder (directories) filter.
      */
     var sDirFilter = FileFilter { file: File ->
-        val fileName: String = file.getName()
-        file.isDirectory() && !fileName.startsWith(HIDDEN_PREFIX)
+        val fileName: String = file.name
+        file.isDirectory && !fileName.startsWith(HIDDEN_PREFIX)
     }
 
     /**

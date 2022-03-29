@@ -42,33 +42,29 @@ class UserViewModel @Inject constructor(
         )
     )
 
-    init {
-       viewModelScope.launch {
-           getUserInfo()
-       }
-    }
-
-    suspend fun findUserById(id: String) {
-        isLoading.value = true
-        val result = userRepository.getUserInfo(id)
-        try {
-            when (result) {
-                is Resource.Success -> {
-                    if (result.data != null)
-                        images.value = result.data.images
-                    videos.value = result.data!!.videos
-                    posts.value = result.data.sizePosts
-                    helped.value = result.data.sizeHelped
-                    user.value = userResponse2(result.data.user)
+     fun findUserById(id: String) {
+        viewModelScope.launch {
+            isLoading.value = true
+            val result = userRepository.getUserInfo(id)
+            try {
+                when (result) {
+                    is Resource.Success -> {
+                        if (result.data != null)
+                            images.value = result.data.images
+                        videos.value = result.data!!.videos
+                        posts.value = result.data.sizePosts
+                        helped.value = result.data.sizeHelped
+                        user.value = userResponse2(result.data.user)
+                    }
+                    is Resource.Error -> {
+                    }
+                    else -> {
+                    }
                 }
-                is Resource.Error -> {
-                }
-                else -> {
-                }
+            } catch (e: Exception) {
             }
-        } catch (e: Exception) {
+            isLoading.value = false
         }
-        isLoading.value = false
     }
 
     suspend fun getUserInfo() {

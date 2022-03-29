@@ -75,7 +75,9 @@ fun PostScreen(
             if (selectedGroup != null) {
                 postViewModel.refresh(selectedGroup.id)
             }
-            delay(1500)
+            else{
+                postViewModel.refresh(null)
+            }
             refreshing = false
         }
     }
@@ -83,7 +85,6 @@ fun PostScreen(
         changeBarState.invoke(true)
     }
     Scaffold(
-        modifier = Modifier.padding(bottom = 50.dp),
         topBar = {
             TopApp(
                 navigator = navigator,
@@ -150,7 +151,7 @@ fun PostScreen(
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
-                                        text = if(selectedGroup == null) "" else selectedGroup?.users?.size.toString() + " người theo dõi",
+                                        text = if(selectedGroup == null) "" else selectedGroup.users.size.toString() + " người theo dõi",
                                         color = Color.Gray,
                                         fontSize = 10.sp
                                     )
@@ -173,35 +174,43 @@ fun PostScreen(
                                 )
                             }
                         }
-                        if (postList.isEmpty()) {
-                            Text(
-                                text = "Hiện chưa có bài đăng nào ",
-                                fontSize = 20.sp,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxSize()
-                            )
-
-                        }
-                        LazyColumn(
-                            state = scrollState, modifier = Modifier.padding(bottom = 50.dp)
-                        ) {
-                            if (isLoading) {
-                                items(10) {
-                                    ShimmerLoading()
-                                }
-                            } else
-                                items(postList.size) {
-                                    if (it >= postList.size - 1 && !endReached) {
-                                        postViewModel.loadPostPaginated()
+                        when (isLoading) {
+                            true -> {
+                                LazyColumn{
+                                    items(10) {
+                                        ShimmerLoading()
                                     }
-                                    PostEntry(
-                                        post = postList[it],
-                                        navigator,
-                                        postViewModel = postViewModel,
-                                        avatar = avatar ?: ""
-                                    )
                                 }
+                            }
+                            else -> {
+                                if (postList.isNotEmpty()) {
+                                    LazyColumn(
+                                        state = scrollState,
+                                        modifier = Modifier.padding(bottom = 50.dp)
+                                    ) {
+                                        items(postList.size) {
+                                            if (it >= postList.size - 1 && !endReached) {
+                                                postViewModel.loadPostPaginated()
+                                            }
+                                            PostEntry(
+                                                post = postList[it],
+                                                navigator =navigator,
+                                                changeBarState={changeBarState.invoke(it)},
+                                                postViewModel = postViewModel,
+                                                avatar = avatar ?: ""
+                                            )
+                                        }
+                                    }
+                                } else
+                                    Text(
+                                        text = "Hiện chưa có bài đăng nào ",
+                                        fontSize = 20.sp,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                            }
                         }
+
                     }
                 }
             }

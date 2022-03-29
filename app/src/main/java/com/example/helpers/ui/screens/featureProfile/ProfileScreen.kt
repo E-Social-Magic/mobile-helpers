@@ -54,10 +54,10 @@ fun ProfileScreen(
     userViewModel: UserViewModel,
 
 ) {
-
     var selectedTabIndex by remember {
         mutableStateOf(0)
     }
+    loginViewModel.isShowBottomBar.value=true
     val paymentList = userViewModel.payment
     var user = userViewModel.user
     var images = userViewModel.images
@@ -122,13 +122,14 @@ fun ProfileScreen(
                     navigator=navigator,
                     userName = user.value!!.userName,
                     description = user.value?.description,
+                    enableRedirectPayment=true,
                     avatar = user.value!!.avatar,
                     coins = coinsConvert,
                     posts = posts.value,
                     helped = helped.value,
                     group = user.value!!.subjects?.size.toString() ,
                     follower = user.value!!.follower?.size.toString(),
-                    following = user.value!!.following?.size.toString()
+                    following = user.value!!.following?.size.toString(),
                 )
                 Spacer(modifier = Modifier.height(25.dp))
                 Spacer(modifier = Modifier.height(25.dp))
@@ -140,10 +141,10 @@ fun ProfileScreen(
                             image = painterResource(id = R.drawable.ic_grid),
                             text = "Posts"
                         ),
-                        ImageWithText(
-                            image = painterResource(id = R.drawable.ic_reels),
-                            text = "Reels"
-                        ),
+//                        ImageWithText(
+//                            image = painterResource(id = R.drawable.ic_reels),
+//                            text = "Reels"
+//                        ),
                         ImageWithText(
                             image = painterResource(id = R.drawable.ic_igtv),
                             text = "IGTV"
@@ -157,7 +158,7 @@ fun ProfileScreen(
                         posts = images.value,
                         modifier = Modifier.fillMaxWidth()
                     )
-                    2 -> ProfileTransactionHistory(
+                    1 -> ProfileTransactionHistory(
                         paymentList = paymentList.value,
                         avatar = user.value!!.avatar
                     )
@@ -171,6 +172,7 @@ fun ProfileScreen(
 fun ProfileSection(
     navigator:DestinationsNavigator,
     modifier: Modifier = Modifier,
+    enableRedirectPayment:Boolean= false,
     userName:String,
     description: String?,
     avatar: String,
@@ -179,7 +181,7 @@ fun ProfileSection(
     helped: Int,
     group: String,
     follower: String,
-    following: String
+    following: String,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Column(
@@ -209,11 +211,12 @@ fun ProfileSection(
             StatSection(
                 navigator =navigator,
                 helped = helped.toString(),
+                enableRedirectPayment=enableRedirectPayment,
                 posts = posts,
                 coins = coins,
                 group = group,
                 follower = follower,
-                following = following
+                following = following,
             )
         }
         HorizontalDivider()
@@ -247,17 +250,18 @@ fun RoundImage(
 fun StatSection(
     navigator: DestinationsNavigator,
     modifier: Modifier = Modifier,
+    enableRedirectPayment:Boolean= false,
     helped: String,
     posts:Int,
     coins: String,
     group: String,
     follower: String,
-    following: String
+    following: String,
 ) {
     Column(
         modifier = modifier
     ) {
-        ProfileHeader(navigator =navigator ,helped, posts, coins)
+        ProfileHeader(navigator =navigator ,helped, posts, coins,enableRedirectPayment=enableRedirectPayment)
         HorizontalDivider()
         Row(
             modifier = Modifier.height(64.dp),
@@ -327,6 +331,11 @@ fun ProfileTransactionHistory(
     avatar: String,
     modifier: Modifier = Modifier
 ) {
+    if (paymentList.isEmpty()){
+        Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+            Text(text = "Danh sách rỗng")
+        }
+    }
     LazyColumn {
         items(paymentList.size) { index->
             val payment = paymentList[index]
@@ -370,7 +379,7 @@ fun ProfileTransactionHistory(
                                 fontSize = 14.sp,
                                 color = colorCoins
                             )
-                            TimeConverter.getDateTime(payment!!.createdAt)?.let {
+                            TimeConverter.getDateTime(payment.createdAt)?.let {
                                 Text(
                                     text = it,
                                     color = Color.Gray,
@@ -510,11 +519,15 @@ fun PostSection(
     posts: List<String>,
     modifier: Modifier = Modifier
 ) {
+    if (posts.isEmpty()){
+        Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
+           Text(text = "Danh sách rỗng")
+        }
+    }
     LazyVerticalGrid(
         cells = GridCells.Fixed(3),
         modifier = modifier
             .scale(1.01f)
-            .padding(bottom = 80.dp)
     ) {
         items(posts.size) {index ->
             ImageContent(

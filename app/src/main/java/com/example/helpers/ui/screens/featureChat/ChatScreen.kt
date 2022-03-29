@@ -28,7 +28,7 @@ fun ChatScreen (
     }
     ChatTheme{
         ChannelsScreen(
-            title = "Chat screen",
+            title = "Chat",
             isShowingSearch = true,
             isShowingHeader = true,
             onItemClick = onItemClick,

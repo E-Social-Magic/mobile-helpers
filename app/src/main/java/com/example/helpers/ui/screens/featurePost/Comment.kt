@@ -131,9 +131,9 @@ fun MessageCard(postViewModel: PostViewModel,msg: Message, isSolve: Boolean,isEd
                         )
                     }
                     VotingAction(
-                        text = "1",
-                        onUpVoteAction = { },
-                        onDownVoteAction = { })
+                        text = "${msg.votes}",
+                        onUpVoteAction = { postViewModel.voteUp(postId = postId, commentId = msg.id)},
+                        onDownVoteAction = { postViewModel.voteDown(postId = postId, commentId = msg.id)})
                     if (!isSolve && isEditable && ownerPostId!=msg.userId){
                         MarkAnswerIsCorrect(action = {postViewModel.markAnswerIsCorrect(postId = postId, commentId = msg.id)})
                     }

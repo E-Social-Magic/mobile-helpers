@@ -18,6 +18,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun PostEntry(
     post: PostEntry,
+    changeBarState:(Boolean)->Unit,
     navigator: DestinationsNavigator,
     modifier: Modifier = Modifier,
     postViewModel: PostViewModel,
@@ -45,11 +46,13 @@ fun PostEntry(
                     userId = post.userId,
                     coins = post.coins,
                     costs = post.costs,
-                    isSolve = isSovle
+                    isSolve = isSovle,
+                    hideName = post.hideName
                 )
             }
             if (isExpand){
                 Row(modifier = Modifier.clickable {
+                    changeBarState.invoke(false)
                     navigator.navigate(PostDetailDestination(postId = post.id))
                 }) {
                     if (post.images.isNotEmpty())

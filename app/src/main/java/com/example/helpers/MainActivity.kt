@@ -21,6 +21,7 @@ import com.example.helpers.ui.screens.destinations.*
 import com.example.helpers.ui.screens.featureGroup.TopicListScreen
 import com.example.helpers.ui.screens.featureLogin.LoginScreen
 import com.example.helpers.ui.screens.featureLogin.LoginViewModel
+import com.example.helpers.ui.screens.featurePayment.BalanceCoin
 import com.example.helpers.ui.screens.featurePost.PostScreen
 import com.example.helpers.ui.screens.featurePost.PostViewModel
 import com.example.helpers.ui.screens.featureProfile.ProfileScreen
@@ -125,6 +126,12 @@ class MainActivity : ComponentActivity() {
                                         snackBarController = snackBarController,
                                     )
                                 }
+                                composable(BalanceCoinDestination) {
+                                    BalanceCoin(
+                                        navigator = destinationsNavigator,
+                                        loginViewModel = loginViewModel,
+                                    )
+                                }
                                 composable(ChatScreenDestination) {
                                     ChatScreen(
                                         navigator = destinationsNavigator,
@@ -146,7 +153,8 @@ class MainActivity : ComponentActivity() {
                                 composable(TopicListScreenDestination) {
                                     TopicListScreen(
                                         navigator = destinationsNavigator,
-                                        loginViewModel = loginViewModel)
+                                        loginViewModel = loginViewModel
+                                    )
                                 }
 
                             }

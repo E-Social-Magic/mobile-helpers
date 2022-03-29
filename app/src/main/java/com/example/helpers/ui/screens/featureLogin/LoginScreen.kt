@@ -62,13 +62,12 @@ fun LoginScreen(
             .fillMaxSize()
             .clickable { focusManager.clearFocus() }
     ) {
-        Row(Modifier.weight(2f)) {
-            TextLogoApp()
-        }
+            Row(Modifier.weight(3f)) {
+                TextLogoApp()
+            }
         Column(
-            Modifier.weight(5f),
+            Modifier.weight(6f),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
             LoginFields(
                 email,

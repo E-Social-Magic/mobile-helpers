@@ -10,6 +10,8 @@ interface PostRepository {
     suspend fun getPosts(limit:Int,offset:Int,groupId:String?=null): Resource<PostListResponse>
     suspend fun voteUp(postId:String):Resource<VoteResponse>
     suspend fun voteDown(postId:String):Resource<VoteResponse>
+    suspend fun voteUp(postId:String,commentId: String):Resource<VoteResponse>
+    suspend fun voteDown(postId:String,commentId: String):Resource<VoteResponse>
     suspend fun newPost(postModel: PostModel):Resource<PostResponse>
     suspend fun getPostById(postId:String):Resource<PostResponse>
     suspend fun newComment(postId: String,comment: CommentRequest,files:List<File>?):Resource<NewCommentResponse>

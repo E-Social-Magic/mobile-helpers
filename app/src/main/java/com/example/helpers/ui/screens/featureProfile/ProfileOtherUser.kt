@@ -97,7 +97,7 @@ fun ProfileOtherUserScreen(
                     helped = helped.value,
                     group = user.value!!.subjects?.size.toString(),
                     follower = user.value!!.follower?.size.toString(),
-                    following = user.value!!.following?.size.toString()
+                    following = user.value!!.following?.size.toString(),
                 )
                 Spacer(modifier = Modifier.height(25.dp))
                 Spacer(modifier = Modifier.height(25.dp))

@@ -12,4 +12,7 @@ data class Comment(
     val userId: String,
     val images:List<String>,
     val avatar:String?,
+    val votes:Int,
+    val voteups:List<String>,
+    val votedowns:List<String>
 )

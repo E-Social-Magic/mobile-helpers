@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +22,7 @@ fun ProfileHeader(
     countHelped: String,
     countPosts: Int,
     coins:String,
+    enableRedirectPayment:Boolean,
 ) {
         Row(
             Modifier.height(64.dp),
@@ -46,7 +48,11 @@ fun ProfileHeader(
             Row(Modifier
                 .fillMaxHeight()
                 .weight(1f)
-                .clickable {navigator.navigate(BalanceCoinDestination) }
+                .clickable {
+                    if (enableRedirectPayment){
+                        navigator.navigate(BalanceCoinDestination)
+                    }
+                }
                 .padding(horizontal = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center

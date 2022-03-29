@@ -23,7 +23,6 @@ import javax.inject.Inject
 
 @ActivityScoped
 class PostRepositoryImpl @Inject constructor(private val api: PostApi) : PostRepository {
-
     override suspend fun getPosts(
         limit: Int,
         offset: Int,
@@ -128,7 +127,72 @@ class PostRepositoryImpl @Inject constructor(private val api: PostApi) : PostRep
             }
         }
     }
+    override suspend fun voteUp(postId: String,commentId: String): Resource<VoteResponse> {
+        val response = api.voteUp(postId = postId, commentId = commentId, up = "true")
+        return when (response.code()) {
+            HttpURLConnection.HTTP_BAD_METHOD -> {
+                val errorBody = response.errorBody() ?: run {
+                    throw NullPointerException()
+                }
+                return Resource.Error(data = ErrorUtils.parseError(errorBody = errorBody))
+            }
+            HttpURLConnection.HTTP_NOT_FOUND -> {
+                val errorBody = response.errorBody() ?: run {
+                    throw NullPointerException()
+                }
+                return Resource.Error(data = ErrorUtils.parseError(errorBody = errorBody))
+            }
+            HttpURLConnection.HTTP_UNAUTHORIZED -> {
+                val errorBody = response.errorBody() ?: run {
+                    throw NullPointerException()
+                }
+                return Resource.Error(data = ErrorUtils.parseError(errorBody = errorBody))
+            }
+            HttpURLConnection.HTTP_FORBIDDEN -> {
+                val errorBody = response.errorBody() ?: run {
+                    throw NullPointerException()
+                }
+                return Resource.Error(data = ErrorUtils.parseError(errorBody = errorBody))
+            }
+            else -> {
+                response.body()?.let {
+                    Resource.Success(data = it)
+                } ?: Resource.Error("Empty response")
+            }
+        }
+    }
 
+    override suspend fun voteDown(postId: String,commentId: String): Resource<VoteResponse> {
+        val response = api.voteUp(postId = postId, commentId = commentId, down = "true")
+        return when (response.code()) {
+            HttpURLConnection.HTTP_BAD_METHOD -> {
+                val errorBody = response.errorBody() ?: run {
+                    throw NullPointerException()
+                }
+                return Resource.Error(data = ErrorUtils.parseError(errorBody = errorBody))
+            }
+            HttpURLConnection.HTTP_NOT_FOUND -> {
+                val errorBody = response.errorBody() ?: run {
+                    throw NullPointerException()
+                }
+                return Resource.Error(data = ErrorUtils.parseError(errorBody = errorBody))
+            }
+            HttpURLConnection.HTTP_UNAUTHORIZED -> {
+                val errorBody = response.errorBody() ?: run {
+                    throw NullPointerException()
+                }
+                return Resource.Error(data = ErrorUtils.parseError(errorBody = errorBody))
+            }
+            HttpURLConnection.HTTP_FORBIDDEN -> {
+                Resource.Error(data = response.body(), message = "HTTP_FORBIDDEN")
+            }
+            else -> {
+                response.body()?.let {
+                    Resource.Success(data = it)
+                } ?: Resource.Error("Empty response")
+            }
+        }
+    }
     override suspend fun newPost(postModel: PostModel): Resource<PostResponse> {
         val map: HashMap<String, RequestBody> = HashMap()
         val newPostRequest = NewPostRequest(
