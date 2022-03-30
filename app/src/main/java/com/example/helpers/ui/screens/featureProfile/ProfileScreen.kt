@@ -33,6 +33,7 @@ import com.example.helpers.models.data.response.DataX
 import com.example.helpers.ui.components.CircularProgressBar
 import com.example.helpers.ui.components.SnackBarController
 import com.example.helpers.ui.components.posts.ImageContent
+import com.example.helpers.ui.components.posts.ImageContentGrid
 import com.example.helpers.ui.screens.destinations.LoginScreenDestination
 import com.example.helpers.ui.screens.featureLogin.LoginViewModel
 import com.example.helpers.ui.theme.Grey100
@@ -156,7 +157,7 @@ fun ProfileScreen(
                 when (selectedTabIndex) {
                     0 -> PostSection(
                         posts = images.value,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxSize()
                     )
                     1 -> ProfileTransactionHistory(
                         paymentList = paymentList.value,
@@ -530,7 +531,7 @@ fun PostSection(
             .scale(1.01f)
     ) {
         items(posts.size) {index ->
-            ImageContent(
+            ImageContentGrid(
                 url = posts[index]
             )
         }

@@ -29,8 +29,7 @@
         <activity
             android:name="com.example.helpers.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Esocial.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@style/Theme.Esocial.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW"/>

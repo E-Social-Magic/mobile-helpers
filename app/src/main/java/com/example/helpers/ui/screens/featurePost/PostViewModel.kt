@@ -29,6 +29,7 @@ import javax.inject.Inject
 class PostViewModel @Inject constructor(private val postRepository: PostRepository,private val sessionManager: SessionManager) : ViewModel() {
     private var currentPage = 1
     var postList = mutableStateOf<List<PostEntry>>(listOf())
+    var allposts = mutableStateOf<List<PostEntry>>(listOf())
     var loadError = mutableStateOf("")
     var isLoading = mutableStateOf(false)
     var endReached = mutableStateOf(false)
@@ -54,6 +55,30 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
         loadPostPaginated()
     }
 
+    var searchValue = mutableStateOf("")
+    var searchBarState = mutableStateOf(false)
+
+    fun onSearchBarStateChange(newValue:Boolean){
+        searchBarState.value = newValue
+    }
+
+
+    fun onSearchChange(newValue: String){
+        viewModelScope.launch {
+            searchValue.value = newValue
+            if (searchValue.value.isEmpty()) {
+                postList.value = allposts.value
+                return@launch
+            }
+            delay(1000)
+            val postsFormSearch = allposts.value.filter { data ->
+                data.title.contains(searchValue.value, true) || data.content.contains(searchValue.value, true)
+            }
+
+            postList.value = postsFormSearch
+        }
+    }
+
     fun refresh(groupById: String?) {
         postList.value = listOf()
         currentPage = 1
@@ -77,6 +102,7 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
                     loadError.value = ""
                     postList.value += postListEntry
                     delay(500L)
+                    allposts.value = postList.value
                     isLoading.value = false
                 }
                 is Resource.Error -> {

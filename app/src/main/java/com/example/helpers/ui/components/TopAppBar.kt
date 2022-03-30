@@ -29,6 +29,7 @@ import coil.transform.CircleCropTransformation
 import com.example.helpers.R
 import com.example.helpers.ui.screens.UserViewModel
 import com.example.helpers.ui.screens.destinations.ProfileScreenDestination
+import com.example.helpers.ui.screens.featurePost.PostViewModel
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
@@ -36,14 +37,15 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun TopApp(
     navigator: DestinationsNavigator,
     userViewModel: UserViewModel = hiltViewModel(),
+    postViewModel: PostViewModel = hiltViewModel(),
     title: String,
     icon: ImageVector,
     scrollUpState: State<Boolean?>,
     onIconClick: () -> Unit
 ) {
-    val searchBarState = userViewModel.searchBarState.value
-    val searchValue = userViewModel.searchValue.value
-    val isLoading = userViewModel.isLoading.value
+    val searchBarState = postViewModel.searchBarState.value
+    val searchValue = postViewModel.searchValue.value
+    val isLoading = postViewModel.isLoading.value
     val user = userViewModel.user.value
     val position by animateFloatAsState(if (scrollUpState.value == true) -150f else 0f)
 
@@ -70,11 +72,11 @@ fun TopApp(
             SearchBar(
                 hint = "Tìm kiếm... ",
                 searchValue = searchValue,
-                onSearchValueChange = { userViewModel.onSearchChange(it) },
+                onSearchValueChange = { postViewModel.onSearchChange(it)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                onSearchBarStateChange = { userViewModel.onSearchBarStateChange(it) }
+                onSearchBarStateChange = { postViewModel.onSearchBarStateChange(it) }
             ) {
 
             }
@@ -98,7 +100,7 @@ fun TopApp(
                 modifier = Modifier
                     .clickable(onClick = {
                         onIconClick.invoke()
-                        userViewModel.onSearchBarStateChange(true)
+                        postViewModel.onSearchBarStateChange(true)
                     })
                     .padding(16.dp)
                     .align(Alignment.CenterVertically)
