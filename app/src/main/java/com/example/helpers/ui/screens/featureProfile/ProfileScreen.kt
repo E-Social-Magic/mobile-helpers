@@ -337,7 +337,7 @@ fun ProfileTransactionHistory(
             Text(text = "Danh sách rỗng")
         }
     }
-    LazyColumn {
+    LazyColumn(modifier = Modifier.padding(bottom = 50.dp)) {
         items(paymentList.size) { index->
             val payment = paymentList[index]
             val color = if(index%2 == 0) Color.White else Grey100
@@ -392,7 +392,7 @@ fun ProfileTransactionHistory(
                             }
                         }
                         Text(
-                            text = "Số dư ví: " + if(payment.resultCode == "7000") "?" else payment.accountBalance.toString(),
+                            text = "Số dư ví: " + if(payment.resultCode == "7000") "Đang xử lí" else payment.accountBalance.toString(),
                             fontWeight = FontWeight.W500,
                             fontSize = 13.sp,
                             modifier = Modifier

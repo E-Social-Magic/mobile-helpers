@@ -220,12 +220,12 @@ fun CommentInput(
                             isHintDisplayed = !it.isFocused
                         },
                     keyboardActions = KeyboardActions(
-                        onSearch = {
+                        onDone = {
 
                         }
                     ),
                     keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Search
+                        imeAction = ImeAction.Done
                     ),
                     trailingIcon = {
                         Row {
