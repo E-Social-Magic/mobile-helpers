@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import com.example.helpers.R
+import com.example.helpers.ui.components.CircularProgressBar
 import com.example.helpers.ui.components.ShimmerLoading
 import com.example.helpers.ui.components.TopApp
 import com.example.helpers.ui.components.posts.PostEntry
@@ -177,11 +178,8 @@ fun PostScreen(
                         }
                         when (isLoading) {
                             true -> {
-                                LazyColumn{
-                                    items(10) {
-                                        ShimmerLoading()
-                                    }
-                                }
+                                    CircularProgressBar(isDisplay = isLoading)
+
                             }
                             else -> {
                                 if (postList.isNotEmpty()) {

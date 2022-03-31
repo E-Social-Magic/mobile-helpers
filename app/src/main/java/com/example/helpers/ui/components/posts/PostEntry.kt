@@ -68,7 +68,11 @@ fun PostEntry(
 
                 }
             }
-
+            else{
+                Row(modifier.padding(8.dp)) {
+                    TitlePost(post.title)
+                }
+            }
         }
     }
 }

@@ -80,14 +80,19 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
     }
 
     fun refresh(groupById: String?) {
+        if (groupById != null) {
+            groupId.value=groupById
+        }
         postList.value = listOf()
+        allposts.value = listOf()
         currentPage = 1
         loadPostPaginated(groupById)
     }
 
     fun loadPostPaginated(groupById: String? = null) {
+        isLoading.value = true
+
         viewModelScope.launch {
-            isLoading.value = true
             val searchBy = groupById ?: if (groupId.value.isEmpty()) null else groupId.value
             val result = postRepository.getPosts(Constants.POST_SIZE, currentPage, searchBy)
             when (result) {
@@ -101,26 +106,20 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
                     currentPage++
                     loadError.value = ""
                     postList.value += postListEntry
-                    delay(500L)
                     allposts.value = postList.value
-                    isLoading.value = false
                 }
                 is Resource.Error -> {
                     loadError.value = result.message!!
-                    delay(500L)
-
-                    isLoading.value = false
                 }
                 else -> {
-                    delay(500L)
-                    isLoading.value = false
                 }
             }
         }
+        isLoading.value = false
+
     }
 
     fun voteUp(postId: String) {
-        viewModelScope.launch {
             viewModelScope.launch {
                 postRepository.voteUp(postId)
                 val getPostbyId = postRepository.getPostById(postId)
@@ -146,10 +145,9 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
                 isLoading.value = false
             }
 
-        }
+
     }
     fun voteUp(postId: String,commentId:String) {
-        viewModelScope.launch {
             viewModelScope.launch {
                 postRepository.voteUp(postId, commentId = commentId)
                 val getPostbyId = postRepository.getPostById(postId)
@@ -170,10 +168,7 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
                     else -> {
                     }
                 }
-
-
                 isLoading.value = false
-            }
 
         }
     }
